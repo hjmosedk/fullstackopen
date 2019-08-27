@@ -1,0 +1,24 @@
+browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
+server --> browser: HTML Code
+browser -> server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+server --> browser: CSS data
+browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
+server --> browser: spa.js
+
+note over browser
+The browser starts to execute java scripts
+end note
+
+browser -> server: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+server --> browser: Object is rendered
+
+note over browser
+new note is created
+end note
+
+browser -> server: HTTP POST - object.json is updated with new note
+server --> browser: Object is rendered
+
+note over server
+Notice how the page is not reloaded and information from the server is updated live
+end note

@@ -1,0 +1,22 @@
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+
+note over server
+The note json object is updated with the new note submitted
+end note
+
+server --> browser: 302 (redirect)
+
+note over browser
+The following is the same as the orginal flow diagram
+end note
+
+browser -> server: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+server --> browser: HTML Code
+browser -> server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+server --> browser: CSS data
+browser -> server: HTTP GET HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+server --> browser: main.js
+
+note over browser
+The new json containing the new note is rendered
+end note
