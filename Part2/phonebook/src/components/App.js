@@ -56,7 +56,16 @@ const App = () => {
 				.create(personObject)
 				.then(newPersonList =>
 					setPersons(persons.concat(newPersonList))
+				)
+				.catch(
+					error => setNotificationMessage(error.response.data),
+					setMessageStatus(!messageStatus),
+					setTimeout(() => {
+						setNotificationMessage(null);
+					}, 5000),
+					setMessageStatus(!messageStatus)
 				);
+
 			setNotificationMessage(`Added ${newName} to the phonebook`);
 			setTimeout(() => {
 				setNotificationMessage(null);

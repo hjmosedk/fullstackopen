@@ -4,6 +4,7 @@ import Weather from './Weather';
 import LoadingInfo from './LoadingInfo';
 import Language from './Language';
 
+const api_key = process.env.REACT_APP_API_KEY;
 const imgstyle = {
 	height: '280px',
 	width: '370px',
@@ -24,7 +25,7 @@ const Singlecountry = ({
 	const weatherData = () => {
 		axios
 			.get(
-				`http://api.weatherstack.com/current?access_key=bdb6e84c9f639640457f953a01975acd&query=${countries[0].capital}&units=m`
+				`http://api.weatherstack.com/current?access_key=${api_key}&query=${countries[0].capital}&units=m` //For securtity reason the API key have been removed.
 			)
 			.then(response => {
 				setWeather(response.data);
