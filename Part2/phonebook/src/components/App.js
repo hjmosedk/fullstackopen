@@ -11,7 +11,7 @@ const App = () => {
 	const [newNumber, setNewNumber] = useState('');
 	const [search, setSearch] = useState('');
 	const [notificationMessage, setNotificationMessage] = useState(null);
-	const [messageStatus, setMessageStatus] = useState(true);
+	const [messageStatus, setMessageStatus] = useState('message');
 
 	useEffect(() => {
 		personService.getAll().then(initialPersons => {
@@ -54,24 +54,28 @@ const App = () => {
 			};
 			personService
 				.create(personObject)
-				.then(newPersonList =>
-					setPersons(persons.concat(newPersonList))
-				)
-				.catch(
-					error => setNotificationMessage(error.response.data),
-					setMessageStatus(!messageStatus),
+				.then(
+					newPersonList => setPersons(persons.concat(newPersonList)),
+					setMessageStatus('message'),
+					setNotificationMessage(`Added ${newName} to the phonebook`),
 					setTimeout(() => {
 						setNotificationMessage(null);
 					}, 5000),
-					setMessageStatus(!messageStatus)
-				);
-
-			setNotificationMessage(`Added ${newName} to the phonebook`);
-			setTimeout(() => {
-				setNotificationMessage(null);
-			}, 5000);
-			setNewName(' ');
-			setNewNumber(' ');
+					setNewName(''),
+					setNewNumber('')
+				)
+				.catch(error => {
+					setMessageStatus('error');
+					setNotificationMessage(error.response.data.error);
+					setTimeout(
+						() => {
+							setNotificationMessage(null);
+						},
+						5000,
+						setNewName(''),
+						setNewNumber('')
+					);
+				});
 		}
 	};
 
@@ -91,14 +95,23 @@ const App = () => {
 		if (window.confirm(`Do you really want to delete ${name}`)) {
 			personService
 				.remove(id)
-				.then(setPersons(persons.filter(p => p.id !== id)))
+				.then(
+					setPersons(persons.filter(p => p.id !== id)),
+					setMessageStatus('message'),
+					setNotificationMessage(
+						`${name} have been succesfully removed from the server`
+					),
+					setTimeout(() => {
+						setNotificationMessage(null);
+					}, 5000)
+				)
 				.catch(error => {
 					setNotificationMessage(
 						`Information of ${name} has already been removed form server`
 					);
-					setMessageStatus(!messageStatus);
+					setMessageStatus('error');
 					setTimeout(() => {
-						setMessageStatus(!messageStatus);
+						setMessageStatus('message');
 						setNotificationMessage(null);
 					}, 5000);
 				});
