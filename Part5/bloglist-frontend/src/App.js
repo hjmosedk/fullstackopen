@@ -37,7 +37,6 @@ const App = () => {
   const handleLogin = async credentials => {
     try {
       const user = await loginService.login(credentials);
-      window.localStorage.setItem('userLogIn', JSON.stringify(user));
       blogService.setToken(user.token);
       setUser(user);
     } catch (exception) {
